@@ -18,80 +18,52 @@ namespace GrammarSampler
 
     class Program
     {
+        static void add_(List<Rule> rules, string inputString, string outputString, int multiplicity = 1)
+        {
+            for (int i = 0; i < multiplicity; i++)
+            {
+                rules.Add(new Rule(inputString, outputString));
+            }
+        }
+
         static List<Rule> megaDyck()
         {
             List<Rule> rules = new List<Rule>();
-            rules.Add(new Rule("S", "(S)"));
-            rules.Add(new Rule("S", "[S]"));
-            rules.Add(new Rule("S", "{S}"));
-            rules.Add(new Rule("S", "SS"));
-            rules.Add(new Rule("S", ""));
+            add_(rules, "S", "(S)");
+            add_(rules, "S", "[S]");
+            add_(rules, "S", "{S}");
+            add_(rules, "S", "SS");
+            add_(rules, "S", "");
             return rules;
         }
 
         static List<Rule> unaryMultiplication()
         {
             List<Rule> rules = new List<Rule>();
-            rules.Add(new Rule("S", "LR"));
-            rules.Add(new Rule("L", "aLX"));
-            rules.Add(new Rule("R", "BR"));
-            rules.Add(new Rule("L", "M"));
-            rules.Add(new Rule("R", "E"));
-            for (int i = 0; i < 100; i++) rules.Add(new Rule("XB", "BCX"));
-            for (int i = 0; i < 100; i++) rules.Add(new Rule("XC", "CX"));
-            for (int i = 0; i < 100; i++) rules.Add(new Rule("CB", "BC"));
-            for (int i = 0; i < 100; i++) rules.Add(new Rule("XE", "E"));
-            for (int i = 0; i < 10; i++) rules.Add(new Rule("MB", "bM"));
-            rules.Add(new Rule("M", "K"));
-            for (int i = 0; i < 100; i++) rules.Add(new Rule("KC", "cK"));
-            rules.Add(new Rule("KE", ""));
-            return rules;
-        }
-
-        static List<Rule> unaryMultiplication_bug1()
-        {
-            List<Rule> rules = new List<Rule>();
-            rules.Add(new Rule("S", "LR"));
-            rules.Add(new Rule("L", "aLX"));
-            rules.Add(new Rule("R", "BR"));
-            rules.Add(new Rule("R", "E"));
-            for (int i = 0; i < 100; i++) rules.Add(new Rule("XB", "BCX"));
-            for (int i = 0; i < 100; i++) rules.Add(new Rule("XC", "CX"));
-            for (int i = 0; i < 100; i++) rules.Add(new Rule("CB", "BC"));
-            for (int i = 0; i < 100; i++) rules.Add(new Rule("XE", "E"));
-            for (int i = 0; i < 10; i++) rules.Add(new Rule("LB", "bL"));
-            rules.Add(new Rule("L", "K"));
-            for (int i = 0; i < 100; i++) rules.Add(new Rule("KC", "cK"));
-            rules.Add(new Rule("KE", ""));
-            return rules;
-        }
-
-        static List<Rule> unaryMultiplication_bug2()
-        {
-            List<Rule> rules = new List<Rule>();
-            rules.Add(new Rule("S", "LR"));
-            rules.Add(new Rule("L", "aLX"));
-            rules.Add(new Rule("R", "BR"));
-            rules.Add(new Rule("L", "M"));
-            for (int i = 0; i < 100; i++) rules.Add(new Rule("XB", "BCX"));
-            for (int i = 0; i < 100; i++) rules.Add(new Rule("XC", "CX"));
-            for (int i = 0; i < 100; i++) rules.Add(new Rule("CB", "BC"));
-            for (int i = 0; i < 100; i++) rules.Add(new Rule("XR", "R"));
-            for (int i = 0; i < 10; i++) rules.Add(new Rule("MB", "bM"));
-            rules.Add(new Rule("M", "K"));
-            for (int i = 0; i < 100; i++) rules.Add(new Rule("KC", "cK"));
-            rules.Add(new Rule("KR", ""));
+            add_(rules, "S", "LR");
+            add_(rules, "L", "aLX", 4);
+            add_(rules, "R", "BR", 4);
+            add_(rules, "L", "M");
+            add_(rules, "R", "E");
+            add_(rules, "XB", "BCX", 20);
+            add_(rules, "XC", "CX", 20);
+            add_(rules, "CB", "BC", 20);
+            add_(rules, "XE", "E", 20);
+            add_(rules, "MB", "bM", 20);
+            add_(rules, "M", "K");
+            add_(rules, "KC", "cK", 20);
+            add_(rules, "KE", "");
             return rules;
         }
 
         static Random RNG = new Random();
-        const int max_length = 80;
-        const int max_steps = 1234567;
+        const int max_length = 90;
+        const int max_steps = 1000000;
 
         static void Main(string[] args)
         {
             string initial = "S";
-            List <Rule> rules = unaryMultiplication();
+            List<Rule> rules = unaryMultiplication();
 
             HashSet<string> generated = new HashSet<string>();
             while (true)
