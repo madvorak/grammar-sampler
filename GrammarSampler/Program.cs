@@ -29,11 +29,11 @@ namespace GrammarSampler
         static List<Rule> megaDyck()
         {
             List<Rule> rules = new List<Rule>();
-            add_(rules, "S", "(S)");
-            add_(rules, "S", "[S]");
-            add_(rules, "S", "{S}");
-            add_(rules, "S", "SS");
-            add_(rules, "S", "");
+            add_(rules, "S", "(S)", 3);
+            add_(rules, "S", "[S]", 3);
+            add_(rules, "S", "{S}", 3);
+            add_(rules, "S", "SS", 4);
+            add_(rules, "S", "", 5);
             return rules;
         }
 
@@ -41,24 +41,24 @@ namespace GrammarSampler
         {
             List<Rule> rules = new List<Rule>();
             add_(rules, "S", "LR");
-            add_(rules, "L", "aLX", 4);
-            add_(rules, "R", "BR", 4);
+            add_(rules, "L", "aLX", 3);
+            add_(rules, "R", "BR", 3);
             add_(rules, "L", "M");
             add_(rules, "R", "E");
-            add_(rules, "XB", "BCX", 20);
-            add_(rules, "XC", "CX", 20);
-            add_(rules, "CB", "BC", 20);
-            add_(rules, "XE", "E", 20);
-            add_(rules, "MB", "bM", 20);
+            add_(rules, "XB", "BCX", 100);
+            add_(rules, "XC", "CX", 100);
+            add_(rules, "CB", "BC", 100);
+            add_(rules, "XE", "E");
+            add_(rules, "MB", "bM", 10);
             add_(rules, "M", "K");
-            add_(rules, "KC", "cK", 20);
+            add_(rules, "KC", "cK", 100);
             add_(rules, "KE", "");
             return rules;
         }
 
         static Random RNG = new Random();
-        const int max_length = 90;
-        const int max_steps = 1000000;
+        const int max_length = 111;
+        const int max_steps = 666000;
 
         static void Main(string[] args)
         {
